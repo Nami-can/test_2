@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viva Market - Игровые товары и услуги</title>
+    <style>
+        :root {
+            --bg-primary: #0f0f15;
+            --bg-secondary: #1a1a24;
+            --bg-card: #1e1e2d;
+            --accent-primary: #2d6aff;
+            --accent-secondary: #1e4fd8;
+            --accent-dark: #0f2a75;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --text-muted: #6a6a7a;
+            --border-color: #2a2a3a;
+            --success: #00c896;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--bg-secondary);
+            padding: 15px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .catalog-btn {
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .catalog-btn:hover {
+            background-color: var(--accent-secondary);
+            transform: translateY(-2px);
+        }
+
+        .balance {
+            background-color: var(--accent-dark);
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Navigation */
+        .main-nav {
+            background-color: var(--bg-card);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .hero-image {
+            flex: 1;
+            text-align: right;
+            font-size: 80px;
+        }
+
+        /* Categories */
+        .categories {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .view-all {
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .category-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .category-name {
+            font-size: 14px;
+        }
+
+        /* Products */
+        .products {
+            margin-bottom: 40px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            height: 150px;
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 0 0 8px 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--accent-secondary);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                max-width: 100%;
+                margin: 10px 0;
+            }
+            
+            .hero-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .hero-image {
+                font-size: 60px;
+            }
+            
+            .user-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">VM</div>
+                    <span>Viva Pay</span>
+                </div>
+                <button class="catalog-btn">
+                    ☰ Каталог
+                </button>
+                <div class="search-bar">
+                    <input type="text" placeholder="Поиск игр, ключей, услуг...">
+                </div>
+                <div class="user-actions">
+                    <div class="balance">1250 ₽</div>
+                    <button class="btn btn-outline">Войти</button>
+                    <button class="btn btn-primary">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#">🏠 Главная</a></li>
+                <li><a href="#">🎮 Игры</a></li>
+                <li><a href="#">👤 Аккаунты</a></li>
+                <li><a href="#">🎫 Пополнения</a></li>
+                <li><a href="#">🔥 Распродажи</a></li>
+                <li><a href="#">🏆 Топ продавцов</a></li>
+                <li><a href="#">❓ Поддержка</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="hero-content">
+                <h1 class="hero-title">Пополнение Steam</h1>
+                <p class="hero-subtitle">Мгновенное пополнение кошелька Steam без комиссии. Работаем 24/7</p>
+                <button class="btn btn-primary">Пополнить сейчас</button>
+            </div>
+            <div class="hero-image">
+                💰
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <!-- <section class="categories">
+            <h2 class="section-title">
+                Категории товаров
+                <a href="#" class="view-all">Все категории →</a>
+            </h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">🎮</div>
+                    <div class="category-name">Игры Steam</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">👤</div>
+                    <div class="category-name">Аккаунты</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🎫</div>
+                    <div class="category-name">Пополнения</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🔧</div>
+                    <div class="category-name">Услуги</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">🔑</div>
+                    <div class="category-name">Ключи активации</div>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon">💎</div>
+                    <div class="category-name">Игровые предметы</div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Хиты продаж -->
+        <section class="products">
+            <h2 class="section-title">
+                Топ-продаж
+                <a href="#" class="view-all">Все товары →</a>
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">💳</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Steam Wallet 500 RUB</h3>
+                        <div class="product-price">499 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 156</span>
+                            <span>★ 4.9</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">💳</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Steam Wallet 1000 RUB</h3>
+                        <div class="product-price">999 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 89</span>
+                            <span>★ 4.9</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🎮</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Cyberpunk 2077 - Steam ключ</h3>
+                        <div class="product-price">1 299 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 45</span>
+                            <span>★ 4.8</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">👤</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Аккаунт Spotify Premium</h3>
+                        <div class="product-price">299 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 12</span>
+                            <span>★ 4.5</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Новинки -->
+        <section class="products">
+            <h2 class="section-title">
+                Новинки
+                <a href="#" class="view-all">Все новинки →</a>
+            </h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">🎮</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Baldur's Gate 3 - GOG ключ</h3>
+                        <div class="product-price">2 199 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 15</span>
+                            <span>★ 5.0</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">👤</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Аккаунт YouTube Premium</h3>
+                        <div class="product-price">449 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 8</span>
+                            <span>★ 4.6</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">💳</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Xbox Gift Card 1000 RUB</h3>
+                        <div class="product-price">999 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 19</span>
+                            <span>★ 4.9</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">🔑</div>
+                    <div class="product-info">
+                        <h3 class="product-title">Windows 11 Pro ключ</h3>
+                        <div class="product-price">1 499 ₽</div>
+                        <div class="product-meta">
+                            <span>В наличии: 32</span>
+                            <span>★ 4.7</span>
+                        </div>
+                    </div>
+                    <button class="buy-btn">Купить</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Viva Market</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">О компании</a></li>
+                        <li><a href="#">Партнерская программа</a></li>
+                        <li><a href="#">Вакансии</a></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Центр поддержки</a></li>
+                        <li><a href="#">Частые вопросы</a></li>
+                        <li><a href="#">Правила использования</a></li>
+                        <li><a href="#">Сообщить о проблеме</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Для продавцов</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Стать продавцом</a></li>
+                        <li><a href="#">Личный кабинет</a></li>
+                        <li><a href="#">Комиссии</a></li>
+                        <li><a href="#">Инструкции</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Техническая поддержка</a></li>
+                        <li><a href="#">Для сотрудничества</a></li>
+                        <li><a href="#">Мы в Telegram</a></li>
+                        <li><a href="#">Мы в VK</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Viva Market. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
